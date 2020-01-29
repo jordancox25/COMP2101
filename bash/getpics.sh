@@ -20,12 +20,15 @@ test -d ~/Pictures || mkdir ~/Pictures
 test -f ~/Pictures/pics.zip || wget -q -O ~/Pictures/pics.zip http://zonzorp.net/pics.zip
 
 # unpack the downloaded zipfile if it is there, then delete the local copy of the zipfile
-test -f ~/Pictures/pics.zip && unzip -d ~/Pictures -o -q ~/Pictures/pics.zip && rm ~/Pictures/pics.zip
+test -f ~/Pictures/pics.zip && unzip -q ~/Pictures/pics.zip -d ~/Pictures && rm ~/Pictures/pics.zip
 #######################################
 # handle the TAR file
 #######################################
 # Make a report on what we have in the Pictures directory
-test -d ~/Pictures && cat <<EOF
+test -f ~/Picture/pics.tgz || wget -q -O ~/Pictures/pics.tgz http://zonzorp.net/pics.tgz
+echo **
+test -f ~/Picture/pics.tgz && tar -xzf ~/Pictures/pics.tgz && rm ~/Pictures/pics.tgz
+
 Found $(find ~/Pictures -type f|wc -l) files in the Pictures directory.
 The Pictures directory uses $(du -sh ~/Pictures|awk '{print $1}') space on the disk.
 EOF
