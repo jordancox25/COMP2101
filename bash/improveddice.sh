@@ -21,3 +21,19 @@ die1=$(( RANDOM % 6 + 1))
 die2=$(( RANDOM % 6 + 1 ))
 # display the results
 echo "Rolled $die1, $die2"
+
+########################################
+#Make range and bias variables, then generate a random result.
+######################################
+diesides=6
+bias=1
+result=$((RANDOM % diesides + bias))
+echo "Rolling the 3rd die..."
+echo "rolled $result."
+
+###########################################
+#Add the sum of the dice.
+#########################################
+sum=$(($die1 + $die2 + $result))
+average=$(($sum /3))
+echo "The sum of $die1, $die2, and $result is $sum, and the average is $average."
