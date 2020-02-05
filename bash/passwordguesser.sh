@@ -9,7 +9,44 @@
 # TASK 3: Improve it by giving them 5 tries to get it right before failing
 #           *** Do not use the exit command, and do not use a loop (e.g. while or for)
 
-myString="TestString"
-referenceString="password"
+correctpw="password"
 
-[ $myString = $referenceString ] && echo "Correct!" || echo "Incorrect."
+####################
+#How it works
+####################
+
+read -p "Please enter a password: " guess
+if [ "$guess" == "$correctpw" ]; then
+  attempt="true"
+  echo "Correct!"
+elif [ "$attempt" != "true" ]; then
+  read -p "Incorrect. Please enter a password, you have 4 tries left: " guess
+fi
+
+if [ "$guess" == "$correctpw" ]; then
+  attempt="true"
+  echo "Correct!"
+elif [ "$attempt" != "true" ]; then
+  read -p "Incorrect. Please enter a password, you have 3 tries left: " guess
+fi
+
+if [ "$guess" == "$correctpw" ]; then
+  attempt="true"
+  echo "Correct!"
+elif [ "$attempt" != "true" ]; then
+  read -p "Incorrect. Please enter a password, you have 2 tries left: " guess
+fi
+
+if [ "$guess" == "$correctpw" ]; then
+  attempt="true"
+  echo "Correct!"
+elif [ "$attempt" != "true" ]; then
+  read -p "Incorrect. Please enter a password, you have 1 tries left: " guess
+fi
+
+if [ "$guess" == "$correctpw" ]; then
+  attempt="true"
+  echo "Correct!"
+elif [ "$attempt" != "true" ]; then
+  read -p "Incorrect. You have no more tries left. Shutting down."
+fi
