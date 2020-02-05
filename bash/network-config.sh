@@ -30,14 +30,29 @@
 # finding external information relies on curl being installed and relies on live internet connection
 # awk is used to extract only the data we want displayed from the commands which produce extra data
 # this command is ugly done this way, so generating the output data into variables is recommended to make the script more readable.
-# e.g. 
+# e.g.
 #   interface_name=$(ip a |awk '/: e/{gsub(/:/,"");print $2}')
 
+######################################
+##Variables##
+###################################
+myhostname=$(hostname)
+interface_name=$(ip a | awk '/: e/{gsub(/:/,"");print $2}')
+lanaddress=$(ip a s $interface_name | awk '/inet /{gsub(/\/.*/,"");print $2}')
+lanhostname=$(getent hosts $lanaddress | awk '{print $2}')
+externalip=$(curl -s icanhazip.com)
+externalname=$(getent hosts $externalip | awk '{print $2}')
+routeraddress=$(route -n | grep '^0.0.0.0' | awk '{print $2}')
+routername=$(getent hosts 127.0.0.1 | awk '{print $2}')
+########################
+##Output for each##
+#####################
 cat <<EOF
-Hostname        : $(hostname)
-LAN Address     : $(ip a s $(ip a |awk '/: e/{gsub(/:/,"");print $2}')|awk '/inet /{gsub(/\/.*/,"");print $2}')
-LAN Hostname    : $(getent hosts $(ip a s $(ip a |awk '/: e/{gsub(/:/,"");print $2}'))|awk '/inet /{gsub(/\/.*/,"");print $2}' | awk '{print $2}')
-External IP     : $(curl -s icanhazip.com)
-External Name   : $(getent hosts $(curl -s icanhazip.com) | awk '{print $2}')
+Hostname        : $myhostname
+LAN Address     : $lanaddress
+LAN Hostname    : $lanhostname
+External IP     : $externalip
+External Name   : $externalname
+Router Address  : $routeraddress
+Router Hostname : $routername
 EOF
-
