@@ -64,15 +64,15 @@ EOF
 interfaces=$(ifconfig | grep -w -o '^[^ ][^ ]*:'| tr -d :)
 
 for interface in $interfaces; do
-  # Find an address and hostname for the interface being summarized
-  # we are assuming there is only one IPV4 address assigned to this interface
+# Find an address and hostname for the interface being summarized
+# we are assuming there is only one IPV4 address assigned to this interface
   ipv4_address=$(ip a s $interface|awk -F '[/ ]+' '/inet /{print $3}')
   ipv4_hostname=$(getent hosts $ipv4_address | awk '{print $2}')
 
 # Identify the network number for this interface and its name if it has one
-network_address=$(ip route list dev $interface scope link|cut -d ' ' -f 1)
-network_number=$(cut -d / -f 1 <<<"$network_address")
-network_name=$(getent networks $network_number|awk '{print $1}')
+  network_address=$(ip route list dev $interface scope link|cut -d ' ' -f 1)
+  network_number=$(cut -d / -f 1 <<<"$network_address")
+  network_name=$(getent networks $network_number|awk '{print $1}')
 
 cat <<EOF
 Interface $interface:
